@@ -10,16 +10,18 @@ print(f" the quit event is type {pygame.QUIT}")
 pygame.init()
 
 # Font Settings
-game_font = pygame.font.Font("assets/fonts/hogfish.otf", 128)
+game_font = pygame.font.Font("assets/fonts/hogfish.otf", 64)
 
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Chomp!")
 
+background_image = pygame.image.load("path/to/your/background_image.jpg").convert()
+
 background = screen.copy()
 def draw_background():
-    background.fill(WATER_COLOR)
-    text = game_font.render("Agon!", True, (17, 3, 64))
+    background.fill(BACK_COLOR)
+    text = game_font.render("Pirate's Plunder: Shipwreck Showdown", True, (128, 128, 128))
     background.blit(text, (SCREEN_WIDTH // 2 - text.get_width() // 2, SCREEN_HEIGHT // 2 - text.get_height() // 2))
 draw_background()
 
