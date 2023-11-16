@@ -20,7 +20,7 @@ background_image = pygame.transform.scale(original_background_image, (SCREEN_WID
 player1 = player.Player()
 
 while True:
-    for event in pygame.event.get():
+        for event in pygame.event.get():
         if event.type == pygame.QUIT:
             print("Thanks for playing")
             pygame.quit()
