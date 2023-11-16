@@ -6,8 +6,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, x=0, y=0):
         super().__init__()
         self.player_image = pygame.image.load("assets/images/Ships/black_ship.png").convert()
-        self.scaled_image = pygame.transform.scale(self.player_image, (int(self.player_image.get_width() * SHIP_SCALING_FACTOR), int(self.player_image.get_height() * SHIP_SCALING_FACTOR)))
-        self.right_image = pygame.transform.rotate(self.scaled_image, 90)
+        self.right_image = pygame.transform.rotate(self.player_image, 90)
         self.right_image.set_colorkey((0, 0, 0))
         self.left_image = pygame.transform.flip(self.right_image, True, False)
         self.image = self.right_image
