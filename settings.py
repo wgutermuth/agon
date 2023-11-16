@@ -5,4 +5,7 @@ SCREEN_HEIGHT = 9*TILE_SIZE*1.25
 SHIP_SCALING_FACTOR = 0.75
 
 # COLORS
-SAND_BORDER_COLOR = (114, 106, 88)
+SAND_BORDER_COLOR = (187, 174, 145)
+
+# MISC
+# GAME_FONT = pygame.font.Font("assets/fonts/hogfish.otf", 64)

@@ -8,13 +8,9 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
-# Font Settings
-game_font = pygame.font.Font("assets/fonts/hogfish.otf", 64)
-
 pygame.display.set_caption("Shipwreck Showdown")
 
 background = Background(map="1")
-
 
 player1 = Player()
 
