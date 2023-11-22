@@ -6,6 +6,7 @@ from settings import *
 from background import Background
 from cannon import CannonBall
 from positions import *
+import math
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -55,6 +56,12 @@ while True:
                 player1.moving_up = False
             if event.key == pygame.K_DOWN:
                 player1.moving_down = False
+            if event.key == pygame.K_SPACE:
+                player_fire_up = CannonBall(player1.rect.centerx, player1.rect.y-10, direction="up", speed=2)
+                cannon_balls.add(player_fire_up)
+
+                player_fire_down = CannonBall(player1.rect.centerx, player1.rect.bottom, direction="down", speed=2)
+                cannon_balls.add(player_fire_down)
 
     # Check if it's time to create a new cannonball
     current_time = pygame.time.get_ticks()

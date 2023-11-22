@@ -1,10 +1,12 @@
 import pygame
+from pygame.sprite import spritecollide
 import sys
 from player import Player
 from settings import *
 from background import Background
 from cannon import CannonBall
 from positions import *
+import math
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -15,6 +17,16 @@ cannon_balls = pygame.sprite.Group()
 pygame.display.set_caption("Shipwreck Showdown")
 
 background = Background(map="1")
+
+# Define rectangle coordinates
+start_point = (215, 0)
+end_point = (772, 78)
+
+# Create a sprite with a rectangle
+rectangle_sprite = pygame.sprite.Sprite()
+rectangle_sprite.image = pygame.Surface((end_point[0] - start_point[0], end_point[1] - start_point[1]))
+rectangle_sprite.image.fill((255, 255, 255))  # Fill with white color
+rectangle_sprite.rect = rectangle_sprite.image.get_rect(topleft=start_point)
 
 player1 = Player()
 
@@ -44,6 +56,12 @@ while True:
                 player1.moving_up = False
             if event.key == pygame.K_DOWN:
                 player1.moving_down = False
+            if event.key == pygame.K_SPACE:
+                player_fire_up = CannonBall(player1.rect.centerx, player1.rect.y-10, direction="up", speed=2)
+                cannon_balls.add(player_fire_up)
+
+                player_fire_down = CannonBall(player1.rect.centerx, player1.rect.bottom, direction="down", speed=2)
+                cannon_balls.add(player_fire_down)
 
     # Check if it's time to create a new cannonball
     current_time = pygame.time.get_ticks()
@@ -67,14 +85,14 @@ while True:
     cannon_balls.update()
     player1.update()
 
-    player_hit_list = spritecollide(player1, cannon_balls, True)
-    if player_hit_list:
-        print("Player was hit!")
-
     # draw the game screen
     background.draw(screen)
     player1.draw(screen)
     cannon_balls.draw(screen)
+
+    player_hit_list = spritecollide(player1, cannon_balls, True)  # The third parameter (True) removes the cannonball on collision
+    if player_hit_list:
+        player1.die()
 
     pygame.display.flip()
     clock.tick(60)
