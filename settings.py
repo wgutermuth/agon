@@ -7,5 +7,8 @@ SHIP_SCALING_FACTOR = 0.75
 # COLORS
 SAND_BORDER_COLOR = (187, 174, 145)
 
+# PARAMETERS
+CANNON_INTERVAL = 2000
+
 # MISC
 # GAME_FONT = pygame.font.Font("assets/fonts/hogfish.otf", 64)

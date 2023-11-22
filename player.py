@@ -36,10 +36,15 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = 0
         if self.rect.right > SCREEN_WIDTH:
             self.rect.right = SCREEN_WIDTH
-        if self.rect.bottom > SCREEN_HEIGHT - 2 * TILE_SIZE:  # account for sand
-            self.rect.bottom = SCREEN_HEIGHT - 2 * TILE_SIZE
+        if self.rect.bottom > SCREEN_HEIGHT:  # account for sand
+            self.rect.bottom = SCREEN_HEIGHT
+
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
+    def die(self):
+        print("Player died!")
+        self.kill()
 
 player = pygame.sprite.Group()
