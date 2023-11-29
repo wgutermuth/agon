@@ -30,6 +30,8 @@ background = Background(map="1")
 
 player1 = Player()
 
+enemy_blue = Enemy("blue", 100, 200, "horizontal", [(100, 200), (500, 300)])
+
 cannonball_timer = pygame.time.get_ticks()
 
 while True:
@@ -85,11 +87,13 @@ while True:
     # Update game objects
     cannon_balls.update()
     player1.update()
+    enemy_blue.update()
 
     # Draw the game screen
     background.draw(screen)
     player1.draw(screen)
     cannon_balls.draw(screen)
+    enemy_blue.draw(screen)
 
     player_hit_list = spritecollide(player1, cannon_balls, True)
     if player_hit_list:
