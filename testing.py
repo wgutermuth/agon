@@ -11,6 +11,7 @@ from enemy import Enemy
 import math
 
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
@@ -29,6 +30,10 @@ obstacles.add([Obstacle(732,517,400,460)])
 pygame.display.set_caption("Shipwreck Showdown")
 
 background = Background(map="1")
+pygame.mixer.music.load('assets/audio/pirate_music.mp3')
+pygame.mixer.music.play(-1)
+cannon_sound = pygame.mixer.Sound('assets/audio/multi_cannon.mp3')
+cannon_sound.set_volume(0.5)
 
 player1 = Player()
 
@@ -42,9 +47,12 @@ cannonball_timer = pygame.time.get_ticks()
 enemy_cannonball_timer = pygame.time.get_ticks()
 
 while True:
+    current_time = pygame.time.get_ticks()
+#    broadside_cooldown = BROADSIDE_COOLDOWN
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             print("Thanks for playing")
+            pygame.mixer.music.stop()
             pygame.quit()
             sys.exit()
         elif event.type == pygame.KEYDOWN:
@@ -72,8 +80,6 @@ while True:
                 player_fire_down = CannonBall(player1.rect.centerx, player1.rect.bottom, direction="down", speed=2)
                 player_cannon_balls.add(player_fire_down)
 
-    # Check if it's time to create a new cannonball
-    current_time = pygame.time.get_ticks()
     if current_time - cannonball_timer >= CANNON_INTERVAL:
         new_cannon_ball = CannonBall(*LCANNON_MAP1_1, direction="left", speed=2)
         cannon_balls.add(new_cannon_ball)
@@ -89,6 +95,7 @@ while True:
         cannon_balls.add(new_cannon_ball)
         new_cannon_ball = CannonBall(*UCANNON_MAP1_1, direction="up", speed=2)
         cannon_balls.add(new_cannon_ball)
+        cannon_sound.play()
         cannonball_timer = current_time  # Reset the timer
 
     enemy_current_time = pygame.time.get_ticks()
@@ -111,6 +118,7 @@ while True:
         cannon_balls.add(new_cannon_ball)
         new_cannon_ball = CannonBall(enemy_yellow.rect.centerx, enemy_yellow.rect.y - 10, direction="up", speed=2)
         cannon_balls.add(new_cannon_ball)
+        cannon_sound.play()
         enemy_cannonball_timer = enemy_current_time
 
     # Update game objects
@@ -124,15 +132,23 @@ while True:
     background.draw(screen)
     player1.draw(screen)
     cannon_balls.draw(screen)
+    player_cannon_balls.draw(screen)
     enemies.draw(screen)
 
     player_hit_list = spritecollide(player1, cannon_balls, True)
     if player_hit_list:
         player1.die()
 
-    enemy_red_hit_list = pygame.sprite.groupcollide(enemies, player_cannon_balls, True,True)
-    if enemy_red_hit_list:
-        enemies.die()
+    enemy_hit_list = pygame.sprite.groupcollide(enemies, player_cannon_balls, False,True)
+    for enemy in enemy_hit_list:
+        enemy.die()
+
+    # dead_enemies = []
+    # for enemy in enemies:
+    #     if enemy.hit_counter > 2:
+    #         dead_enemies.append(enemy)
+    # enemies.remove(dead_enemies)
+
 
     player_hit_list = spritecollide(player1, obstacles, False)
     if player_hit_list:
