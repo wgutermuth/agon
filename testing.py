@@ -139,6 +139,10 @@ while True:
     if player_hit_list:
         player1.die()
 
+    player_hit_enemy_list = pygame.sprite.spritecollide(player1, enemies, False)
+    for enemy in player_hit_enemy_list:
+        player1.bounce(enemy.rect)
+
     enemy_hit_list = pygame.sprite.groupcollide(enemies, player_cannon_balls, False,True)
     for enemy in enemy_hit_list:
         enemy.die()

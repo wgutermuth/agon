@@ -18,9 +18,11 @@ class Player(pygame.sprite.Sprite):
         self.moving_up = False
         self.moving_down = False
         self.hit_counter = 0
+        self.disable_input = False
+        self.disable_input_timer = 0
 
     def update(self):
-        if self.hit_counter < 3:
+        if self.hit_counter < 3 and not self.disable_input:
             if self.moving_left:
                 self.rect.x -= 2
                 self.image = self.left_image
@@ -40,7 +42,15 @@ class Player(pygame.sprite.Sprite):
                 self.rect.right = SCREEN_WIDTH
             if self.rect.bottom > SCREEN_HEIGHT:  # account for sand
                 self.rect.bottom = SCREEN_HEIGHT
+            else:
+                self.speed_x = 0
+                self.speed_y = 0
 
+                # Check if input needs to be disabled
+                if self.disable_input_timer > 0:
+                    self.disable_input_timer -= 1
+                else:
+                    self.disable_input = False
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
@@ -79,5 +89,17 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.right_image
             else:
                 self.image = self.left_image
+
+    def bounce(self, enemy_rect):
+        # Calculate the direction vector from player to enemy
+        direction_vector = pygame.Vector2(enemy_rect.center) - pygame.Vector2(self.rect.center)
+        direction_vector.normalize()
+
+        # Bounce off by moving in the opposite direction
+        self.speed_x = -direction_vector.x * BOUNCE_SPEED
+        self.speed_y = -direction_vector.y * BOUNCE_SPEED
+
+        # Disable input for a short duration (e.g., 1 second)
+        self.disable_input_timer = int(FPS)  # Disable input for 1 second at 60 FPS
 
 player = pygame.sprite.Group()
