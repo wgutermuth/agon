@@ -135,13 +135,19 @@ while True:
     player_cannon_balls.draw(screen)
     enemies.draw(screen)
 
+    # Display the point counter at the top right of the screen
+    font = pygame.font.Font(GAME_FONT, 64)
+    point_text = font.render(f"Points: {player1.points}", True, (255, 255, 255))
+    point_rect = point_text.get_rect(topright=(SCREEN_WIDTH - 10, 10))
+    screen.blit(point_text, point_rect)
+
     player_hit_list = spritecollide(player1, cannon_balls, True)
     if player_hit_list:
         player1.die()
 
-    player_hit_enemy_list = pygame.sprite.spritecollide(player1, enemies, False)
-    for enemy in player_hit_enemy_list:
-        player1.bounce(enemy.rect)
+#    player_hit_enemy_list = pygame.sprite.spritecollide(player1, enemies, False)
+#    for enemy in player_hit_enemy_list:
+#        player1.bounce(enemy.rect)
 
     enemy_hit_list = pygame.sprite.groupcollide(enemies, player_cannon_balls, False,True)
     for enemy in enemy_hit_list:

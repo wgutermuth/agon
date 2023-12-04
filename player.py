@@ -1,7 +1,6 @@
 import pygame
 from settings import *
 
-
 class Player(pygame.sprite.Sprite):
     def __init__(self, x=0, y=0):
         super().__init__()
@@ -20,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.hit_counter = 0
         self.disable_input = False
         self.disable_input_timer = 0
+        self.points = 0  # New point counter
 
     def update(self):
         if self.hit_counter < 3 and not self.disable_input:
@@ -90,16 +90,21 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.image = self.left_image
 
-    def bounce(self, enemy_rect):
-        # Calculate the direction vector from player to enemy
-        direction_vector = pygame.Vector2(enemy_rect.center) - pygame.Vector2(self.rect.center)
-        direction_vector.normalize()
+                # Increase the point counter when an enemy is killed
+                self.points += 1
 
-        # Bounce off by moving in the opposite direction
-        self.speed_x = -direction_vector.x * BOUNCE_SPEED
-        self.speed_y = -direction_vector.y * BOUNCE_SPEED
+                # Check for the win condition
+                if self.points >= 4:
+                    self.game_over("YOU WIN!")
 
-        # Disable input for a short duration (e.g., 1 second)
-        self.disable_input_timer = int(FPS)  # Disable input for 1 second at 60 FPS
-
-player = pygame.sprite.Group()
+    def game_over(self, message):
+        # Display game over message and handle any necessary actions
+        font = pygame.font.Font(GAME_FONT, 128)
+        text = font.render(message, True, (255, 255, 255))
+        text_rect = text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+        screen.blit(text, text_rect)
+        pygame.display.flip()
+        pygame.time.wait(3000)  # Wait for 3 seconds before quitting
+        pygame.mixer.music.stop()
+        pygame.quit()
+        sys.exit()

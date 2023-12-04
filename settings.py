@@ -1,7 +1,11 @@
+import pygame
+
+pygame.init()
+
 # DIMENSIONS
 TILE_SIZE = 64  # square, height = width
-SCREEN_WIDTH = 16*TILE_SIZE*1.25
-SCREEN_HEIGHT = 9*TILE_SIZE*1.25
+SCREEN_WIDTH = 16 * TILE_SIZE * 1.25
+SCREEN_HEIGHT = 9 * TILE_SIZE * 1.25
 SHIP_SCALING_FACTOR = 0.75
 
 # COLORS
@@ -15,4 +19,4 @@ BOUNCE_SPEED = 5
 FPS = 60
 
 # MISC
-# GAME_FONT = pygame.font.Font("assets/fonts/hogfish.otf", 64)
+GAME_FONT = "assets/fonts/hogfish.otf"
