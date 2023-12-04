@@ -1,6 +1,7 @@
 import pygame
 from settings import SCREEN_WIDTH, SCREEN_HEIGHT
 from pygame.sprite import Sprite
+import math
 from pygame.locals import Rect
 
 class CannonBall(Sprite):
@@ -28,6 +29,9 @@ class CannonBall(Sprite):
             self.rect.y -= self.speed
         elif self.direction == "down":
             self.rect.y += self.speed
+        else:
+            self.rect.x += self.speed * math.cos(self.direction)
+            self.rect.y += self.speed * math.sin(self.direction)
 
         # Check if the cannonball is out of the screen
         if self.rect.x < 0 or self.rect.x > SCREEN_WIDTH or self.rect.y < 0 or self.rect.y > SCREEN_HEIGHT:

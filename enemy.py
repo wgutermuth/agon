@@ -23,7 +23,7 @@ class Enemy(pygame.sprite.Sprite):
         self.color = color
 
     def update(self):
-        if self.hit_counter <= 2:
+        if self.hit_counter < 2:
             if self.direction == "horizontal":
                 self.rect.x += self.speed_x
                 if self.rect.left < self.bounds[0][0] or self.rect.right > self.bounds[1][0]:
