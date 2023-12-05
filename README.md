@@ -1,4 +1,5 @@
-# agon
+# Shipwreck Showdown: Pirate's Plunder
+Development name: agon  
 _by Will Gutermuth_
 
 ## Points:
