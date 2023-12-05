@@ -2,7 +2,6 @@ import pygame
 from settings import SCREEN_WIDTH, SCREEN_HEIGHT
 from pygame.sprite import Sprite
 import math
-from pygame.locals import Rect
 
 class CannonBall(Sprite):
     def __init__(self, x, y, direction, speed):
@@ -16,7 +15,7 @@ class CannonBall(Sprite):
         # Set initial position and movement parameters
         self.rect.x = x
         self.rect.y = y
-        self.direction = direction  # Specify the direction of movement (e.g., "left", "right", "up", "down")
+        self.direction = direction  # Specify the direction of movement ("left", "right", "up", "down")
         self.speed = speed  # Specify the speed of the cannonball
 
     def update(self):
@@ -29,6 +28,7 @@ class CannonBall(Sprite):
             self.rect.y -= self.speed
         elif self.direction == "down":
             self.rect.y += self.speed
+        # Player firing cannon at mouse click.
         else:
             self.rect.x += self.speed * math.cos(self.direction)
             self.rect.y += self.speed * math.sin(self.direction)

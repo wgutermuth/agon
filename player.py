@@ -101,4 +101,53 @@ class Player(pygame.sprite.Sprite):
 
         self.disable_input_timer = 60
 
+    def collect(self, collectibles):
+        collected_list = pygame.sprite.spritecollide(self, collectibles, True)
+        for collected in collected_list:
+            self.hit_counter = self.hit_counter - 1
+            if self.hit_counter == 0:
+                self.player_image = pygame.image.load("assets/images/Ships/black_ship.png").convert_alpha()
+                self.scaled_image = pygame.transform.scale(self.player_image, (
+                int(self.player_image.get_width() * SHIP_SCALING_FACTOR),
+                int(self.player_image.get_height() * SHIP_SCALING_FACTOR)))
+                self.right_image = pygame.transform.rotate(self.scaled_image, 90)
+                self.left_image = pygame.transform.flip(self.right_image, True, False)
+                if self.image == self.right_image:
+                    self.image = self.right_image
+                else:
+                    self.image = self.left_image
+            elif self.hit_counter == 1:
+                self.player_image = pygame.image.load("assets/images/Ships/black_ship_damaged.png").convert_alpha()
+                self.scaled_image = pygame.transform.scale(self.player_image, (
+                int(self.player_image.get_width() * SHIP_SCALING_FACTOR),
+                int(self.player_image.get_height() * SHIP_SCALING_FACTOR)))
+                self.right_image = pygame.transform.rotate(self.scaled_image, 90)
+                self.left_image = pygame.transform.flip(self.right_image, True, False)
+                if self.image == self.right_image:
+                    self.image = self.right_image
+                else:
+                    self.image = self.left_image
+            elif self.hit_counter == 2:
+                self.player_image = pygame.image.load("assets/images/Ships/black_ship_damaged2.png").convert_alpha()
+                self.scaled_image = pygame.transform.scale(self.player_image, (
+                    int(self.player_image.get_width() * SHIP_SCALING_FACTOR),
+                    int(self.player_image.get_height() * SHIP_SCALING_FACTOR)))
+                self.right_image = pygame.transform.rotate(self.scaled_image, 90)
+                self.left_image = pygame.transform.flip(self.right_image, True, False)
+                if self.image == self.right_image:
+                    self.image = self.right_image
+                else:
+                    self.image = self.left_image
+            elif self.hit_counter == 3:
+                self.player_image = pygame.image.load("assets/images/Ships/black_ship_destroyed.png").convert_alpha()
+                self.scaled_image = pygame.transform.scale(self.player_image, (
+                    int(self.player_image.get_width() * SHIP_SCALING_FACTOR),
+                    int(self.player_image.get_height() * SHIP_SCALING_FACTOR)))
+                self.right_image = pygame.transform.rotate(self.scaled_image, 90)
+                self.left_image = pygame.transform.flip(self.right_image, True, False)
+                if self.image == self.right_image:
+                    self.image = self.right_image
+                else:
+                    self.image = self.left_image
+
 player = pygame.sprite.Group()

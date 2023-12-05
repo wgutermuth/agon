@@ -1,7 +1,5 @@
 import pygame
 from pygame.sprite import Sprite
-from pygame.locals import Rect
-from settings import TILE_SIZE
 
 class Obstacle(Sprite):
     def __init__(self, x, y, height, width):

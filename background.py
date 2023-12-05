@@ -9,6 +9,7 @@ class Background(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.original_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.rect = self.image.get_rect()
 
+    # My ambition was to have three maps, my patience was to have one map and many point categories.
     def load_map_image(self):
         if self.map == "1":
             self.original_image = pygame.image.load("assets/tiled/map1.png").convert()

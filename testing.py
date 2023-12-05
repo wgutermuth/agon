@@ -8,7 +8,9 @@ from cannon import CannonBall
 from positions import *
 from obstacle import Obstacle
 from enemy import Enemy
+from collectible import Collectible
 import math
+import time
 
 pygame.init()
 pygame.mixer.init()
@@ -25,6 +27,7 @@ obstacles.add([Obstacle(386,168,45,290)])
 obstacles.add([Obstacle(386,213,40,210)])
 obstacles.add([Obstacle(474,253,40,75)])
 obstacles.add([Obstacle(732,517,400,460)])
+collectibles = pygame.sprite.Group([Collectible() for i in range(2)])
 
 
 pygame.display.set_caption("Shipwreck Showdown")
@@ -168,22 +171,14 @@ while True:
     if player_hit_list:
         player1.die()
 
-#    player_hit_enemy_list = pygame.sprite.spritecollide(player1, enemies, False)
-#    for enemy in player_hit_enemy_list:
-#        player1.bounce(enemy.rect)
-
     enemy_hit_list = pygame.sprite.groupcollide(enemies, player_cannon_balls, False,True)
     for enemy in enemy_hit_list:
         enemy.die()
-        if enemy.hit_counter == 2:  # Award points only when hit_counter reaches 2
+        if enemy.hit_counter == 2:  # Each enemy has 2 hit points.
             points += 1
 
-    # dead_enemies = []
-    # for enemy in enemies:
-    #     if enemy.hit_counter > 2:
-    #         dead_enemies.append(enemy)
-    # enemies.remove(dead_enemies)
-
+    player1.collect(collectibles)
+    collectibles.draw(screen)
 
     player_hit_list = spritecollide(player1, obstacles, False)
     if player_hit_list:
@@ -197,7 +192,19 @@ while True:
 
         # Display for 3 seconds before quitting the game
         pygame.display.flip()
-        pygame.time.delay(3000)
+        time.sleep(3)
+        pygame.quit()
+        sys.exit()
+
+    if player1.hit_counter >= 3:
+        game_over_font = pygame.font.Font(GAME_FONT, 128)
+        game_over_text = game_over_font.render("GAME OVER", True, (255, 0, 0))
+        game_over_rect = game_over_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+        screen.blit(game_over_text, game_over_rect)
+
+        # Display for 3 seconds before quitting the game
+        pygame.display.flip()
+        time.sleep(3)
         pygame.quit()
         sys.exit()
 
